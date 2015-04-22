@@ -1,0 +1,77 @@
+package com.wangjia.captche;
+
+import com.thinkland.sdk.sms.SMSCaptcha;
+import com.thinkland.sdk.util.BaseData.ResultCallBack;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class CaptcharActivity extends BaseActivity implements OnClickListener,TextWatcher{
+
+	private final String tag="CaptchaActivity";
+	private static final int RETRY_INTERVAL=60;
+	private String phone;
+	private String formatedPhone;
+	private int time=RETRY_INTERVAL;
+	
+	private EditText etIdentifyNum;
+	private TextView tvTitle;
+	private TextView tvPhone;
+	private TextView tvIdentifyNotify;
+	private TextView tvUnreceiveIdentify;
+	private ImageView ivClear;
+	private Button btnSubmit;
+	private SMSCaptcha smsCaptcha;		
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_captcha);
+        
+        SMSCaptcha smsCaptcha=SMSCaptcha.getInstance();
+        smsCaptcha.sendCaptcha("13167730683",new ResultCallBack() {
+			
+			@Override
+			public void onResult(int arg0, String arg1, String arg2) {
+				if(arg0==0){
+					System.out.println(arg2);
+				}
+				
+				
+			}
+		});
+        
+    }
+
+	@Override
+	public void onClick(View v) {
+		
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		// TODO Auto-generated method stub
+		
+	}
+}

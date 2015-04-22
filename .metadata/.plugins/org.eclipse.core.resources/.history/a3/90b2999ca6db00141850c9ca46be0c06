@@ -1,0 +1,30 @@
+package com.wangjia.captche;
+
+import com.thinkland.sdk.sms.SMSCaptcha;
+import com.thinkland.sdk.util.BaseData.ResultCallBack;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class CaptcharActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        SMSCaptcha smsCaptcha=SMSCaptcha.getInstance();
+        smsCaptcha.sendCaptcha("18225695526",new ResultCallBack() {
+			
+			@Override
+			public void onResult(int arg0, String arg1, String arg2) {
+				if(arg0==0){
+					System.out.println(arg2);
+				}
+				
+				
+			}
+		});
+        
+    }
+}

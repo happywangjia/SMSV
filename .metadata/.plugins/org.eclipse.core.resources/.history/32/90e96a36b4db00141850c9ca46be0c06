@@ -1,0 +1,109 @@
+package com.wangjia.captche;
+
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class RegisterActivity extends BaseActivity implements OnClickListener,TextWatcher{
+
+	private EditText etPhoneNum;
+	private TextView tvCountryNum;
+	private ImageView ivClear;
+	private Button btnNext;
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_register);
+		initView();
+	}
+	private void initView(){
+		TextView tv=(TextView) findViewById(R.id.tv_title);
+		tv.setText(R.layout.smssdk_title_layout);
+		
+		btnNext=(Button) findViewById(R.id.btn_next);
+		tvCountryNum=(TextView) findViewById(R.id.tv_country_num);
+		ivClear=(ImageView) findViewById(R.id.iv_clear);
+		etPhoneNum=(EditText) findViewById(R.id.et_write_phone);
+		etPhoneNum.addTextChangedListener(this);
+		etPhoneNum.setText("");
+		etPhoneNum.requestFocus();
+		if(etPhoneNum.getText().length()>0){
+			btnNext.setEnabled(true);
+			ivClear.setVisibility(View.VISIBLE);
+			btnNext.setBackgroundResource(R.drawable.smssdk_btn_enable);
+		}
+		btnNext.setOnClickListener(this);
+		ivClear.setOnClickListener(this);
+		
+	}
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		if(s.length()>0){
+			btnNext.setEnabled(true);
+			ivClear.setVisibility(View.VISIBLE);
+			btnNext.setBackground(R.drawable.ss);
+		}
+		else{
+			btnNext.setEnabled(false);
+			ivClear.setVisibility(View.GONE);
+			btnNext.setBackgroundResource(R.drawable.dis);
+		}
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		
+	}
+	@Override
+	public void onClick(View v) {
+
+		switch(v.getId()){
+		case R.id.btn_next:
+			String phone=etPhoneNum.getText().toString().trim().replace("\\s(", "");
+			String code=tvCountryNum.getText().toString().trim();
+			checkPhoneNum(phone,code);
+			break;
+		case R.id.iv_clear:
+			etPhoneNum.getText().clear();
+			break;
+		}
+	}
+	private void checkPhoenNum(String phone,String code){
+		if(TextUtils.isEmpty(phone)){
+			Toast.makeText(this, "dddd", Toast.LENGTH_LONG).show();
+			return;
+		}
+		showDialog(phone,code);
+		
+		
+	}
+	public void showDialog
+
+	
+	
+	
+}

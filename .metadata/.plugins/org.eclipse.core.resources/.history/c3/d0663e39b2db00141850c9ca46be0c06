@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+    
+    <include 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/smssdk_title_layout"
+        />
+	
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="22dp"
+        >
+        
+        <TextView 
+            android:id="@+id/tv_contry_num"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+			
+			android:layout_gravity="center"
+			android:text="ss"
+			android:textColor="#ff353535"
+			android:textSize="15sp"
+            
+            />
+        
+        
+    </LinearLayout>
+    
+    
+    
+
+</LinearLayout>

@@ -1,0 +1,121 @@
+package com.wangjia.captche;
+
+import com.thinkland.sdk.sms.SMSCaptcha;
+import com.thinkland.sdk.util.BaseData.ResultCallBack;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class CaptcharActivity extends BaseActivity implements OnClickListener,TextWatcher{
+
+	private final String tag="CaptchaActivity";
+	private static final int RETRY_INTERVAL=60;
+	private String phone;
+	private String formatedPhone;
+	private int time=RETRY_INTERVAL;
+	
+	private EditText etIdentifyNum;
+	private TextView tvTitle;
+	private TextView tvPhone;
+	private TextView tvIdentifyNotify;
+	private TextView tvUnreceiveIdentify;
+	private ImageView ivClear;
+	private Button btnSubmit;
+	private SMSCaptcha smsCaptcha;		
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_captcha);
+        
+        smsCaptcha=SMSCaptcha.getInstance();
+        Intent intent=getIntent();
+        this.formatedPhone=intent.getStringExtra("formatedPhone");
+        this.phone=intent.getStringExtra("phone");
+        
+        btnSubmit=(Button) findViewById(R.id.btn_submit);
+        btnSubmit.setOnClickListener(this);
+        btnSubmit.setEnabled(false);
+        
+        tvTitle=(TextView) this.findViewById(R.id.tv_title);
+        tvTitle.setText(R.string.smssdk_write_identify_code);
+        
+        tvIdentifyNotify=(TextView) findViewById(R.id.tv_identify_notify);
+        String text=getResources().getString(R.string.smssdk_send_mobile_detail);
+        tvIdentifyNotify.setText(Html.fromHtml(text));
+        
+        tvPhone=(TextView) findViewById(R.id.tv_phone);
+        tvPhone.setText(formatedPhone);
+        
+        tvUnreceiveIdentify=(TextView) findViewById(R.id.tv_unreceive_identify);
+        String unReceive=getResources().getString(R.string.smssdk_receive_msg,time);
+        tvUnreceiveIdentify.setText(Html.fromHtml(unReceive));
+        
+        ivClear=(ImageView) findViewById(R.id.iv_clear);
+        ivClear.setOnClickListener(this);
+        
+        countDown();
+    }
+    
+    private void countDown(){
+    	new Thread(new Runnable(){
+    		@Override
+    		public void run(){
+    			while(time-->0){
+    				String unReceive=CaptcharActivity.this.getResources()
+    						.getString(R.string.smssdk_receive_msg,time);
+    				updateTvUnreceive(unReceive);
+    				Log.i("time is about ",unReceive);
+    				try{
+    					Thread.sleep(1000);
+    				}catch(InterruptedException e){
+    					e.printStackTrace();
+    				}
+    			}
+    			String unReceive=getResources().getString(R.string.smssdk_unreceiver_identify_code,time);
+    			updateTvUnreceive(unReceive);
+    			time=RETRY_INTERVAL;
+    			
+    		}
+    	}).start();
+    	
+    	
+    }
+    
+    
+
+	@Override
+	public void onClick(View v) {
+		
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		// TODO Auto-generated method stub
+		
+	}
+}
